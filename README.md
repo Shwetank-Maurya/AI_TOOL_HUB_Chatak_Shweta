@@ -1,6 +1,8 @@
 # 🔥 AI Tool Hub - Your Intelligent Productivity Suite
 
-![AI Tool Hub Banner](https://via.placeholder.com/1200x400?text=AI+Tool+Hub+Banner+--+Replace+With+Actual+Screenshot)
+<div align="center">
+  <img src="assets/banner.png" alt="AI Tool Hub Banner" width="800">
+</div>
 
 A comprehensive collection of AI-powered tools for content processing, learning enhancement, and productivity optimization.
 
@@ -13,25 +15,37 @@ A comprehensive collection of AI-powered tools for content processing, learning 
 
 ### ⚡ Productivity Boosters
 - **Smart Assistant**: "Talk to Shweta" AI helper
-- **Code Tools**: Coming soon!
-- **Writing Assistant**: Coming soon!
+- **Code Tools**: Working on it
+- **Writing Assistant**: Working on it
 
 ### 🎮 Learning & Entertainment
 - **Interactive Games**: Brain-boosting mini-games
 - **Knowledge Challenges**: Quiz generators
 
+---
+
 ## 🚀 Quick Start
 
-### Prerequisites
-- Python 3.8+
-- Streamlit
-- Required packages (`requirements.txt`)
+### 🌐 Live Deployment
+➡️ **[Access Live App](https://ai-tool-kit-by-chatak-shweta.streamlit.app/)**
 
+🔒 *  Dummy Login required to access all features*
+
+### Home page ->
+<div align="center">
+  <img src="assets/banner.png" alt="AI Tool Hub Banner" width="800">
+</div>
+ 
+### 📥 Local Installation
 ```bash
-# Clone & setup
+# Clone repository
 git clone https://github.com/yourusername/ai-tool-hub.git
+
+# Navigate to project directory
 cd ai-tool-hub
+
+# Install dependencies
 pip install -r requirements.txt
 
-# Launch
+# Launch application
 streamlit run app.py
