@@ -142,8 +142,8 @@ prompt = PromptTemplate(
 # Generate flashcards
 if content and number and type and Generate:
     # Truncate content to avoid token limit issues
-    if len(content) > 6000:
-        content = content[:6000] + "... [Content truncated]"
+    if len(content) > 3000:
+        content = content[:3000] + "... [Content truncated]"
         st.warning("Content was truncated to fit token limits.")
     
     # Validate content
