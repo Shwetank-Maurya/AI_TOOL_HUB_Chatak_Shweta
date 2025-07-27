@@ -1,7 +1,7 @@
 # 🔥 AI Tool Hub - Your Intelligent Productivity Suite
 
 <div align="center">
-  <img src="assets/banner.png" alt="AI Tool Hub Banner" width="800">
+  <img src="assets/images/Start.png" alt="AI Tool Hub Banner" width="800">
 </div>
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -37,7 +37,7 @@ A comprehensive collection of AI-powered tools for content processing, learning 
 
 ### Home page ->
 <div align="center">
-  <img src="assets/banner.png" alt="AI Tool Hub Banner" width="800">
+  <img src="assets/images/Home.png" alt="AI Tool Hub Banner" width="800">
 </div>
  
 ### 📥 Local Installation
