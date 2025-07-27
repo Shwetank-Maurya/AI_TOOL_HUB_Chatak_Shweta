@@ -71,7 +71,7 @@ streamlit run app.py
     <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" width="100" alt="GitHub">
   </a>
   <a href="https://medium.com/@shwetank_maurya" style="margin: 0 10px;">
-    <img src="https://img.shields.io/badge/Medium-1DA1F2?style=for-the-badge&logo=medium&logoColor=white" width="100" alt="Medium">
+    <img src="https://img.shields.io/badge/Medium-100000?style=for-the-badge&logo=medium&logoColor=white" width="100" alt="Medium">
   </a>
   
 </p>
