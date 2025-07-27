@@ -4,7 +4,7 @@
   <img src="assets/images/Start.png" alt="AI Tool Hub Banner" width="800">
 </div>
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 [![Streamlit](https://img.shields.io/badge/Deployed_on-Streamlit-FF4B4B.svg)](https://ai-tool-kit-by-chatak-shweta.streamlit.app/)
 
 
