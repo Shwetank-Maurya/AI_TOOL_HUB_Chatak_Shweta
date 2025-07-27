@@ -13,7 +13,7 @@ import streamlit_extras.badges as badge
 
 st.set_page_config(page_title="AI Flashcard Generator", page_icon="📚")
 
-# Sidebar with social badges
+
 with st.sidebar:
     st.markdown("### Connect with me")
     col1, col2 = st.columns(2)
@@ -28,19 +28,17 @@ with st.sidebar:
         except:
             st.markdown("[![Medium](https://img.shields.io/badge/Medium-shwetank-blue?logo=medium)](https://medium.com/@shwetank_maurya)")
 
-# Load environment variables and API key
+
 load_dotenv()
 GROQ_API_KEY = st.secrets.get("api", {}).get("GROQ_API_KEY", os.getenv("GROQ_API_KEY"))
 if not GROQ_API_KEY:
     st.error("GROQ API key not found. Please configure it in secrets or environment variables.")
     st.stop()
 
-# Initialize LLM and tools
 llm = ChatGroq(temperature=0, model_name="llama3-8b-8192", api_key=GROQ_API_KEY)
 wikipedia = WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper())
 arxiv = ArxivAPIWrapper()
 
-# Main UI
 st.title("📚 AI Flashcard Generator")
 st.markdown("""
 <div style='background-color: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 5px solid #4e73df; margin-bottom: 30px;'>
@@ -51,13 +49,11 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Content source selection
 source = st.radio("Select content source:", 
                   ["Wikipedia", "Website URL", "arXiv Papers", "Custom Text"],
                   index=3,
                   horizontal=True)
 
-# Fetch or input content
 content = ""
 if source == "Wikipedia":
     query = st.text_input("Enter Wikipedia search term:")
@@ -106,7 +102,6 @@ elif source == "arXiv Papers":
 else:
     content = st.text_area("Paste your content here:", height=200)
 
-# Flashcard configuration
 rowa = st.columns(2)
 with rowa[0]:
     number = st.number_input("Number of Flashcards",
@@ -121,10 +116,8 @@ with rowa[1]:
                         index=None,
                         placeholder="Select a type")
 
-# Generate button (disabled until all inputs are provided)
 Generate = st.button("Generate", disabled=not (content.strip() and number and type))
 
-# Prompt template for flashcard generation
 prompt = PromptTemplate(
     template="""
     You are a Flashcard Generator Assistant. Generate {number} flashcards based on the provided {context}. 
@@ -139,14 +132,11 @@ prompt = PromptTemplate(
     input_variables=['context', 'number', 'type']
 )
 
-# Generate flashcards
 if content and number and type and Generate:
-    # Truncate content to avoid token limit issues
     if len(content) > 3000:
         content = content[:3000] + "... [Content truncated]"
         st.warning("Content was truncated to fit token limits.")
     
-    # Validate content
     if not content.strip():
         st.error("No valid content provided. Please check your input or try a different source.")
         st.stop()
@@ -162,7 +152,6 @@ if content and number and type and Generate:
                     for i, card in enumerate(flashcards, 1):
                         st.markdown(f"**Flashcard {i}**")
                         st.write(card)
-                    # Add download option
                     json_data = json.dumps({"flashcards": [card.strip() for card in flashcards if card.strip()]}, indent=2)
                     st.download_button(
                         label="Download Flashcards as JSON",
