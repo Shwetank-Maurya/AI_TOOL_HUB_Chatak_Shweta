@@ -113,8 +113,11 @@ if video_url and select_box :
                     if re:
                         final_prompt=prompt.invoke({'context':context_text,'question':re})
                         # st.write(final_prompt)
-                        answer=model.invoke(final_prompt)
-                        st.write(answer.content)
+                        try:
+                            answer=model.invoke(final_prompt)
+                            st.write(answer.content)
+                        except:
+                            st.error("Try After soome time Or Use another URL")
 
 
         
