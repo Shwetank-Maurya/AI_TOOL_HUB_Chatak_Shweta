@@ -56,7 +56,7 @@ streamlit run app.py
 
 ```
 
-## 📬 Contact Us
+## 📬 Contact Me
 
 <div align="center" style="margin: 40px 0;">
 
