@@ -95,7 +95,7 @@ def clean_transcript_text(transcript_data):
     if not transcript_data:
         return ""
     
-    transcript_text = " ".join([t.get('text', '') for t in transcript_data])
+    transcript_text = " ".join([t.text for t in transcript_data])
     
     transcript_text = re.sub(r'\[.*?\]', '', transcript_text)
     transcript_text = re.sub(r'\s+', ' ', transcript_text)
