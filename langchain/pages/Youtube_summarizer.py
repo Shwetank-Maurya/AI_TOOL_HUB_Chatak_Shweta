@@ -62,9 +62,11 @@ def get_transcript_with_retries(video_id, max_retries=3):
         try:
             ytt_api = YouTubeTranscriptApi()
             transcript_list = ytt_api.list(video_id)
-            transcript = transcript_list.find_transcript(['en', 'hi', 'de'])
+            transcript = transcript_list.find_transcript(['de', 'hi', 'en'])
             transcript_data = transcript.fetch()
-            return transcript_data, None
+            
+            transcript_text = " ".join([t.text for t in transcript_data])
+            return transcript_text, None
             
         except RequestBlocked:
             if attempt < max_retries - 1:
@@ -91,11 +93,9 @@ def get_transcript_with_retries(video_id, max_retries=3):
     
     return None, "Failed to fetch transcript after multiple attempts."
 
-def clean_transcript_text(transcript_data):
-    if not transcript_data:
+def clean_transcript_text(transcript_text):
+    if not transcript_text:
         return ""
-    
-    transcript_text = " ".join([t.text for t in transcript_data])
     
     transcript_text = re.sub(r'\[.*?\]', '', transcript_text)
     transcript_text = re.sub(r'\s+', ' ', transcript_text)
@@ -176,7 +176,7 @@ if video_url:
             st.success("📋 Using cached transcript")
         else:
             with st.spinner("🎥 Fetching video transcript..."):
-                transcript_data, error = get_transcript_with_retries(video_id)
+                transcript_text, error = get_transcript_with_retries(video_id)
                 
                 if error:
                     st.error(f"❌ **Error:** {error}")
@@ -197,7 +197,7 @@ if video_url:
                         """)
                     st.stop()
                 
-                transcript_text = clean_transcript_text(transcript_data)
+                transcript_text = clean_transcript_text(transcript_text)
                 
                 if not transcript_text:
                     st.error("❌ **Error:** Empty transcript received")
