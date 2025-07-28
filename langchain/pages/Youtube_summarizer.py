@@ -60,8 +60,7 @@ def extract_video_id(url):
 def get_transcript_with_retries(video_id, max_retries=3):
     for attempt in range(max_retries):
         try:
-            ytt_api = YouTubeTranscriptApi()
-            transcript_list = ytt_api.list_transcripts(video_id)
+            transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
             
             try:
                 transcript = transcript_list.find_transcript(['en', 'en-US', 'en-GB'])
@@ -267,6 +266,6 @@ if video_url:
 st.markdown("---")
 st.markdown("""
 <div style='text-align: center; color: #6c757d; font-size: 14px;'>
-    Made with ❤️ by Chatak Shweta
+    Made with Sasta Love by Chatak Shweta
 </div>
 """, unsafe_allow_html=True)
