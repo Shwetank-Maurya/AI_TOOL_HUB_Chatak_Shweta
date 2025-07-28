@@ -70,25 +70,27 @@ def get_language_codes(language):
 def get_transcript_with_retries(video_id, language_codes, max_retries=3):
     for attempt in range(max_retries):
         try:
-            transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
+            # Try with preferred language codes first
+            transcript_data = YouTubeTranscriptApi.get_transcript(video_id, languages=language_codes)
+            return transcript_data, None
             
+        except NoTranscriptFound:
             try:
-                transcript = transcript_list.find_transcript(language_codes)
+                # Fall back to English
+                transcript_data = YouTubeTranscriptApi.get_transcript(video_id, languages=['en', 'en-US', 'en-GB'])
+                return transcript_data, None
             except NoTranscriptFound:
                 try:
-                    transcript = transcript_list.find_transcript(['en', 'en-US', 'en-GB'])
+                    # Try other common languages
+                    transcript_data = YouTubeTranscriptApi.get_transcript(video_id, languages=['hi', 'de', 'es', 'fr'])
+                    return transcript_data, None
                 except NoTranscriptFound:
                     try:
-                        transcript = transcript_list.find_transcript(['hi', 'de', 'es', 'fr'])
-                    except NoTranscriptFound:
-                        available_transcripts = list(transcript_list)
-                        if available_transcripts:
-                            transcript = available_transcripts[0]
-                        else:
-                            return None, "No transcripts available for this video"
-            
-            transcript_data = transcript.fetch()
-            return transcript_data, None
+                        # Get any available transcript
+                        transcript_data = YouTubeTranscriptApi.get_transcript(video_id)
+                        return transcript_data, None
+                    except:
+                        return None, "No transcripts available for this video"
             
         except RequestBlocked:
             if attempt < max_retries - 1:
@@ -303,6 +305,6 @@ if video_url and select_box:
 st.markdown("---")
 st.markdown("""
 <div style='text-align: center; color: #6c757d; font-size: 14px;'>
-    Made with Funny Love by Chatak Shweta
+    Made with Sasta Love by Chatak Shweta
 </div>
 """, unsafe_allow_html=True)
