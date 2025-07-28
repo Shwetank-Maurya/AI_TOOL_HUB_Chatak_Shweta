@@ -55,7 +55,7 @@ if video_url:
             # st.write(transcript_text)
         
         except TranscriptsDisabled:
-            print("No captions available for this video.")
+            st.error("No captions available for this video.")
         # st.write(transcript_text)
         load_dotenv()
         API=st.secrets["api"]["GROQ_API_KEY"]
