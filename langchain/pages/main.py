@@ -70,27 +70,14 @@ def get_language_codes(language):
 def get_transcript_with_retries(video_id, language_codes, max_retries=3):
     for attempt in range(max_retries):
         try:
-            # Try with preferred language codes first
-            transcript_data = YouTubeTranscriptApi.get_transcript(video_id, languages=language_codes)
-            return transcript_data, None
-            
-        except NoTranscriptFound:
+            ytt_api = YouTubeTranscriptApi()
+            transcript_list = ytt_api.list(video_id)
             try:
-                # Fall back to English
-                transcript_data = YouTubeTranscriptApi.get_transcript(video_id, languages=['en', 'en-US', 'en-GB'])
-                return transcript_data, None
+                transcript = transcript_list.find_transcript(language_codes)
             except NoTranscriptFound:
-                try:
-                    # Try other common languages
-                    transcript_data = YouTubeTranscriptApi.get_transcript(video_id, languages=['hi', 'de', 'es', 'fr'])
-                    return transcript_data, None
-                except NoTranscriptFound:
-                    try:
-                        # Get any available transcript
-                        transcript_data = YouTubeTranscriptApi.get_transcript(video_id)
-                        return transcript_data, None
-                    except:
-                        return None, "No transcripts available for this video"
+                transcript = transcript_list.find_transcript(['en', 'hi', 'de'])
+            transcript_data = transcript.fetch()
+            return transcript_data, None
             
         except RequestBlocked:
             if attempt < max_retries - 1:
