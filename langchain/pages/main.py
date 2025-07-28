@@ -75,9 +75,11 @@ def get_transcript_with_retries(video_id, language_codes, max_retries=3):
             try:
                 transcript = transcript_list.find_transcript(language_codes)
             except NoTranscriptFound:
-                transcript = transcript_list.find_transcript(['en', 'hi', 'de'])
+                transcript = transcript_list.find_transcript(['de', 'hi', 'en'])
             transcript_data = transcript.fetch()
-            return transcript_data, None
+            
+            transcript_text = " ".join([t.text for t in transcript_data])
+            return transcript_text, None
             
         except RequestBlocked:
             if attempt < max_retries - 1:
@@ -154,7 +156,7 @@ if video_url and select_box:
         with st.spinner("📥 Processing video transcript..."):
             language_codes = get_language_codes(transcript_language)
             
-            transcript_data, error = get_transcript_with_retries(video_id, language_codes)
+            transcript_text, error = get_transcript_with_retries(video_id, language_codes)
             
             if error:
                 st.error(f"❌ **Error:** {error}")
@@ -163,7 +165,7 @@ if video_url and select_box:
                     st.markdown("""
                     **Common solutions:**
                     
-                    1. **Wait and retry** - YouTube may be temporarily blocking requests
+                    1. **Wait and retry** - YouTube may be temporarily blocking requests because of too many calls
                     2. **Check video settings** - Ensure the video is public and has captions
                     3. **Try a different video** - Some videos have restricted transcript access
                     4. **Check language availability** - The selected language might not be available
@@ -171,7 +173,7 @@ if video_url and select_box:
                     """)
                 st.stop()
             
-            transcript_text = clean_transcript_text(transcript_data)
+            transcript_text = clean_transcript_text(transcript_text)
             
             if not transcript_text:
                 st.error("❌ **Error:** Empty transcript received")
