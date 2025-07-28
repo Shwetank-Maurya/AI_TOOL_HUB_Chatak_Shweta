@@ -60,22 +60,11 @@ def extract_video_id(url):
 def get_transcript_with_retries(video_id, max_retries=3):
     for attempt in range(max_retries):
         try:
-            # Try the correct way based on your original working code
-            transcript_data = YouTubeTranscriptApi.get_transcript(video_id, languages=['en', 'en-US', 'en-GB'])
+            ytt_api = YouTubeTranscriptApi()
+            transcript_list = ytt_api.list(video_id)
+            transcript = transcript_list.find_transcript(['en', 'hi', 'de'])
+            transcript_data = transcript.fetch()
             return transcript_data, None
-            
-        except NoTranscriptFound:
-            try:
-                # Try other languages
-                transcript_data = YouTubeTranscriptApi.get_transcript(video_id, languages=['hi', 'de', 'es', 'fr'])
-                return transcript_data, None
-            except NoTranscriptFound:
-                try:
-                    # Get any available transcript
-                    transcript_data = YouTubeTranscriptApi.get_transcript(video_id)
-                    return transcript_data, None
-                except:
-                    return None, "No transcripts available for this video"
             
         except RequestBlocked:
             if attempt < max_retries - 1:
